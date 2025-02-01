@@ -1,4 +1,5 @@
--- Key System
+print("Script CDID Created By N4tzzSquadCommunity")
+warn("Anti afk running")
 local key = "nzsqkey_72Hs92Ks92uJs82Sj2oS26N2L16aD82JaoD2"
 local inputKey = game:GetService("Players").LocalPlayer:Prompt("Please enter the key to continue")
 
