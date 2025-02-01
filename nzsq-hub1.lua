@@ -1,11 +1,17 @@
+-- Key System
 local key = "nzsqkey_72Hs92Ks92uJs82Sj2oS26N2L16aD82JaoD2"
 local inputKey = game:GetService("Players").LocalPlayer:Prompt("Please enter the key to continue")
 
 if inputKey ~= key then
     warn("Invalid key! Access denied.")
-    game:Shutdown()
+    game:Shutdown()  -- This will shut down the game if the key is invalid
     return
 end
+
+-- GUI Setup
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Marco8642/science/main/ui%20libs2"))()
+
+local example = library:CreateWindow({ text = "CDID" })
 
 -- Menampilkan Logo saat execute
 local logo = Instance.new("ScreenGui")
@@ -98,10 +104,12 @@ example:AddToggle("Unlimited Money", function(state)
     end
 end)
 
+-- Tombol Close GUI
 example:AddButton("Close GUI", function()
     library.gui:Destroy()
 end)
 
+-- Anti Detected & Anti Ban
 local mt = getrawmetatable(game)
 setreadonly(mt, false)
 local old = mt.__namecall
@@ -114,6 +122,7 @@ mt.__namecall = newcclosure(function(...)
 end)
 setreadonly(mt, true)
 
+-- Menampilkan Logo saat execute (ini untuk memastikan logo muncul saat pertama kali)
 local logo = Instance.new("ScreenGui")
 local img = Instance.new("ImageLabel")
 logo.Parent = game.CoreGui
