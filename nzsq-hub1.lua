@@ -1,25 +1,65 @@
--- CDID Script Modified By N4tzzSquadCommunity
 print("Script CDID Created By N4tzzSquadCommunity")
 warn("Anti afk running")
 
--- Key System for Access Control
-local key = "nzsqkey_72Hs92Ks92uJs82Sj2oS26N2L16aD82JaoD2"
-local inputKey = game:GetService("Players").LocalPlayer:Prompt("Please enter the key to continue")
-if inputKey ~= key then
-    warn("Invalid key! Access denied.")
-    game:Shutdown()
-    return
+-- Progress Bar di Developer Console
+for i = 10, 100, 10 do
+    print("N4tzzHub | Loading Assets... [✅" .. i .. "%]")
+    wait(0.5)
 end
 
--- GUI Setup (Improved Design)
+-- UI Loading Screen
+local screenGui = Instance.new("ScreenGui")
+local frame = Instance.new("Frame")
+local textLabel = Instance.new("TextLabel")
+local subTextLabel = Instance.new("TextLabel")
+
+screenGui.Parent = game.CoreGui
+frame.Parent = screenGui
+frame.Size = UDim2.new(1, 0, 1, 0)
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
+
+textLabel.Parent = frame
+textLabel.Text = "N4tzzHub"
+textLabel.Size = UDim2.new(0.5, 0, 0.1, 0)
+textLabel.Position = UDim2.new(0.25, 0, 0.4, 0)
+textLabel.TextColor3 = Color3.new(1, 1, 1)
+textLabel.TextSize = 50
+
+subTextLabel.Parent = frame
+subTextLabel.Text = "Welcome"
+subTextLabel.Size = UDim2.new(0.5, 0, 0.05, 0)
+subTextLabel.Position = UDim2.new(0.25, 0, 0.5, 0)
+subTextLabel.TextColor3 = Color3.new(1, 1, 1)
+subTextLabel.TextSize = 30
+
+wait(3)
+screenGui:Destroy()
+
+-- Frame Control Panel (Dapat Dibuka/Tutup)
+local controlPanel = Instance.new("ScreenGui")
+local controlFrame = Instance.new("Frame")
+local toggleButton = Instance.new("TextButton")
+
+controlPanel.Parent = game.CoreGui
+controlFrame.Parent = controlPanel
+controlFrame.Size = UDim2.new(0.3, 0, 0.5, 0)
+controlFrame.Position = UDim2.new(0.35, 0, 0.25, 0)
+controlFrame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
+
+toggleButton.Parent = controlPanel
+toggleButton.Text = "Open Control Panel"
+toggleButton.Size = UDim2.new(0.1, 0, 0.05, 0)
+toggleButton.Position = UDim2.new(0.45, 0, 0.9, 0)
+toggleButton.MouseButton1Click:Connect(function()
+    controlFrame.Visible = not controlFrame.Visible
+end)
+
+controlFrame.Visible = false
+
+-- Tambahkan semua fitur ke dalam control panel
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Marco8642/science/main/ui%20libs2"))()
-local example = library:CreateWindow({ text = "CDID - Enhanced Version" })
+local example = library:CreateWindow({ text = "CDID" })
 
--- Visual Improvement
-example:SetTheme("Dark")
-example:EnableToggleUI(true)  -- Buka/Tutup fitur ditambahkan
-
--- Auto Farm Barista
 example:AddToggle("Auto Farm Barista", function(state)
     while state do
         wait(1)
@@ -33,11 +73,10 @@ example:AddToggle("Auto Farm Barista", function(state)
     end
 end)
 
--- Auto Farm Trucker
 example:AddToggle("Auto Farm [Trucker]", function(state)
-    getfenv().drive = state
+    getfenv().drive = (state and true or false)
     workspace.Gravity = 196
-    if workspace.Map:FindFirstChild("Prop") then
+    if workspace.Map:findFirstChild("Prop") then
         workspace.Map.Prop:Destroy()
     end
     while getfenv().drive do
@@ -50,15 +89,16 @@ example:AddToggle("Auto Farm [Trucker]", function(state)
                 game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
                 wait(5)
                 game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+                wait()
+                local prepos = workspace.Etc.Waypoint.Waypoint.Position
                 repeat wait()
                     fireproximityprompt(workspace.Etc.Job.Truck.Starter.Prompt)
-                until workspace.Etc.Waypoint.Waypoint.Position ~= workspace.Etc.Waypoint.Waypoint.Position
+                until workspace.Etc.Waypoint.Waypoint.Position ~= prepos
             end
         end)
     end
 end)
 
--- Speed Hack
 example:AddSlider("Speed Hack (Car)", 50, 1000, function(value)
     local car = game.Players.LocalPlayer.Character.Humanoid.SeatPart and game.Players.LocalPlayer.Character.Humanoid.SeatPart.Parent
     if car and car:FindFirstChild("VehicleSeat") then
@@ -66,14 +106,6 @@ example:AddSlider("Speed Hack (Car)", 50, 1000, function(value)
     end
 end)
 
--- Anti AFK
-game:GetService("Players").LocalPlayer.Idled:connect(function()
-    warn("Anti AFK running")
-    game:GetService("VirtualUser"):CaptureController()
-    game:GetService("VirtualUser"):ClickButton2(Vector2.new())
-end)
-
--- Auto Collect Money
 example:AddButton("Auto Collect Money", function()
     for _, v in pairs(workspace:GetDescendants()) do
         if v:IsA("TouchTransmitter") and v.Parent then
@@ -83,25 +115,11 @@ example:AddButton("Auto Collect Money", function()
     end
 end)
 
--- Unlimited Money
-local unlimitedMoney = false
-example:AddToggle("Unlimited Money", function(state)
-    unlimitedMoney = state
-    while unlimitedMoney do
-        local player = game.Players.LocalPlayer
-        if player and player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Money") then
-            player.leaderstats.Money.Value = player.leaderstats.Money.Value + 100000000000000
-        end
-        wait(1)
-    end
-end)
-
--- Close GUI
 example:AddButton("Close GUI", function()
     library.gui:Destroy()
 end)
 
--- Bypass Anti-Cheat & Anti-Ban System
+-- Anti Detected & Anti Ban
 local mt = getrawmetatable(game)
 setreadonly(mt, false)
 local old = mt.__namecall
