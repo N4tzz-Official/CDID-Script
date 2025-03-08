@@ -37,14 +37,53 @@ subTextLabel.TextStrokeTransparency = 0.5
 wait(3)
 screenGui:Destroy()
 
--- Key System
-local httpService = game:GetService("HttpService")
-local keyURL = "YOUR_KEY_SYSTEM_URL_HERE"
-local keyResponse = httpService:GetAsync(keyURL)
-if keyResponse ~= "VALID_KEY" then
-    warn("Invalid Key! Access Denied.")
-    return
-end
+-- Key System UI
+local keyScreen = Instance.new("ScreenGui")
+local keyFrame = Instance.new("Frame")
+local keyTextBox = Instance.new("TextBox")
+local submitButton = Instance.new("TextButton")
+
+keyScreen.Parent = game.CoreGui
+keyFrame.Parent = keyScreen
+keyFrame.Size = UDim2.new(0.3, 0, 0.3, 0)
+keyFrame.Position = UDim2.new(0.35, 0, 0.35, 0)
+keyFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+
+local corner = Instance.new("UICorner")
+corner.Parent = keyFrame
+corner.CornerRadius = UDim.new(0, 15)
+
+keyTextBox.Parent = keyFrame
+keyTextBox.Size = UDim2.new(0.8, 0, 0.3, 0)
+keyTextBox.Position = UDim2.new(0.1, 0, 0.2, 0)
+keyTextBox.PlaceholderText = "Enter Key Here"
+keyTextBox.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+keyTextBox.TextColor3 = Color3.new(1, 1, 1)
+
+submitButton.Parent = keyFrame
+submitButton.Text = "Submit"
+submitButton.Size = UDim2.new(0.8, 0, 0.3, 0)
+submitButton.Position = UDim2.new(0.1, 0, 0.6, 0)
+submitButton.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+
+submitButton.MouseButton1Click:Connect(function()
+    local key = keyTextBox.Text
+    local httpService = game:GetService("HttpService")
+    local keyURL = "https://test.mkoh"
+    local correctKey = "nz-key_A8sJ2SJ3wO3jDS3Ods8J2H2Ka9"
+
+    local success, response = pcall(function()
+        return httpService:GetAsync(keyURL)
+    end)
+
+    if not success or key ~= correctKey then
+        warn("Invalid Key! Access Denied.")
+        return
+    end
+
+    keyScreen:Destroy()
+    print("Key Accepted! Access Granted.")
+end)
 
 -- Frame Control Panel (UI lebih menarik dengan animasi smooth)
 local controlPanel = Instance.new("ScreenGui")
