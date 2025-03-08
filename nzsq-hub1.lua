@@ -4,7 +4,7 @@ warn("Anti afk running")
 -- Progress Bar di Developer Console dengan animasi lebih smooth
 for i = 10, 100, 10 do
     print("N4tzzHub | Loading Assets... [✅" .. i .. "%]")
-    wait(0.3)
+    wait(0.1)  -- Lebih cepat dan lebih smooth
 end
 
 -- UI Loading Screen dengan animasi halus
@@ -34,7 +34,7 @@ subTextLabel.TextColor3 = Color3.new(1, 1, 1)
 subTextLabel.TextSize = 30
 subTextLabel.TextStrokeTransparency = 0.5
 
-wait(3)
+wait(2)
 screenGui:Destroy()
 
 -- Key System UI
@@ -66,23 +66,32 @@ submitButton.Size = UDim2.new(0.8, 0, 0.3, 0)
 submitButton.Position = UDim2.new(0.1, 0, 0.6, 0)
 submitButton.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
 
+local correctKey = "nz-key_A8sJ2SJ3wO3jDS3Ods8J2H2Ka9"
+
 submitButton.MouseButton1Click:Connect(function()
-    local key = keyTextBox.Text
-    local httpService = game:GetService("HttpService")
-    local keyURL = "https://test.mkoh"
-    local correctKey = "nz-key_A8sJ2SJ3wO3jDS3Ods8J2H2Ka9"
-
-    local success, response = pcall(function()
-        return httpService:GetAsync(keyURL)
-    end)
-
-    if not success or key ~= correctKey then
+    if keyTextBox.Text == correctKey then
+        keyScreen:Destroy()
+        print("Key Accepted! Access Granted.")
+    else
         warn("Invalid Key! Access Denied.")
-        return
     end
+end)
 
-    keyScreen:Destroy()
-    print("Key Accepted! Access Granted.")
+-- Fitur Tambahan: Notifikasi jika key salah
+local errorLabel = Instance.new("TextLabel")
+errorLabel.Parent = keyFrame
+errorLabel.Size = UDim2.new(0.8, 0, 0.2, 0)
+errorLabel.Position = UDim2.new(0.1, 0, 0.9, 0)
+errorLabel.TextColor3 = Color3.new(1, 0, 0)
+errorLabel.Text = "Invalid Key!"
+errorLabel.Visible = false
+
+submitButton.MouseButton1Click:Connect(function()
+    if keyTextBox.Text ~= correctKey then
+        errorLabel.Visible = true
+        wait(2)
+        errorLabel.Visible = false
+    end
 end)
 
 -- Frame Control Panel (UI lebih menarik dengan animasi smooth)
