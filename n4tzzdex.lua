@@ -1,11 +1,7 @@
-local StarterGui = game:GetService("StarterGui")
-local Players = game:GetService("Players")
-local ContentProvider = game:GetService("ContentProvider")
-local RunService = game:GetService("RunService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-print("Dex.lua By N4tzzSquadCommunity Is Running")
-warn("Bypassing Security")
+warn("Dex.lua By N4tzzSquadCommunity Is Running")
+warn("Connecting To Server...")
+wait(1.3)
+warn("Succesfully Connected To Server !")
 
 for i = 10, 100, 10 do
     print("N4tzzHub | Loading Assets... [✅" .. i .. "%]")
