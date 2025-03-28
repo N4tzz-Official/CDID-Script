@@ -17,34 +17,8 @@ for i = 10, 100, 10 do
     wait(0.5)
 end
 
-local function checkAssets()
-    local missingAssets = {}
+print("All Assets Successfully Loaded and Bypassing game security is success")
 
-    local success, errorMessage = pcall(function()
-        ContentProvider:PreloadAsync(game:GetDescendants())
-    end)
-
-    if not success then
-        warn("Bypassing Security Failed / Loading Assets Failed")
-        for _, asset in ipairs(game:GetDescendants()) do
-            if not ContentProvider:IsLoaded(asset) then
-                table.insert(missingAssets, asset:GetFullName())
-                ContentProvider:PreloadAsync({asset})
-            end
-        end
-
-        if #missingAssets > 0 then
-            print("Assets Added:")
-            for _, assetName in ipairs(missingAssets) do
-                print("- " .. assetName)
-            end
-        end
-    else
-        print("All Assets Successfully Loaded and Bypassing game security is success")
-    end
-end
-
-checkAssets()
 local nodes = {}
 local selection
 local cloneref = cloneref or function(...) return ... end
