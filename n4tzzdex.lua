@@ -17,12 +17,6 @@ for i = 10, 100, 10 do
     wait(0.5)
 end
 
-StarterGui.ChildAdded:Connect(function(child)
-    if child.Name == "ExploitLog" then
-        child:Destroy()
-    end
-end)
-
 local function checkAssets()
     local missingAssets = {}
 
@@ -50,25 +44,6 @@ local function checkAssets()
     end
 end
 
-checkAssets()
-
-game:GetService("RunService").Stepped:Connect(function()
-    for _, player in ipairs(Players:GetPlayers()) do
-        local playerGui = player:FindFirstChildOfClass("PlayerGui")
-        if playerGui then
-            local exploitLog = playerGui:FindFirstChild("ExploitLog")
-            if exploitLog then
-                exploitLog:Destroy()
-            end
-        end
-    end
-end)
-
-StarterGui.ChildAdded:Connect(function(child)
-    if child.Name == "ExploitLog" then
-        child:Destroy()
-    end
-end)
 checkAssets()
 local nodes = {}
 local selection
