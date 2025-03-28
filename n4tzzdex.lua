@@ -1,5 +1,8 @@
 local StarterGui = game:GetService("StarterGui")
 local Players = game:GetService("Players")
+local ContentProvider = game:GetService("ContentProvider")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 print("Dex.lua By N4tzzSquadCommunity Is Running")
 warn("Bypassing Security")
@@ -14,10 +17,40 @@ for i = 10, 100, 10 do
     wait(0.5)
 end
 
-for i = 10, 100, 10 do
-    print("N4tzzHub | Checking Assets And Security... [✅" .. i .. "%]")
-    wait(0.2)
+StarterGui.ChildAdded:Connect(function(child)
+    if child.Name == "ExploitLog" then
+        child:Destroy()
+    end
+end)
+
+local function checkAssets()
+    local missingAssets = {}
+
+    local success, errorMessage = pcall(function()
+        ContentProvider:PreloadAsync(game:GetDescendants())
+    end)
+
+    if not success then
+        warn("Bypassing Security Failed / Loading Assets Failed")
+        for _, asset in ipairs(game:GetDescendants()) do
+            if not ContentProvider:IsLoaded(asset) then
+                table.insert(missingAssets, asset:GetFullName())
+                ContentProvider:PreloadAsync({asset})
+            end
+        end
+
+        if #missingAssets > 0 then
+            print("Assets Added:")
+            for _, assetName in ipairs(missingAssets) do
+                print("- " .. assetName)
+            end
+        end
+    else
+        print("All Assets Successfully Loaded and Bypassing game security is success")
+    end
 end
+
+checkAssets()
 
 game:GetService("RunService").Stepped:Connect(function()
     for _, player in ipairs(Players:GetPlayers()) do
@@ -36,18 +69,6 @@ StarterGui.ChildAdded:Connect(function(child)
         child:Destroy()
     end
 end)
-
-local function checkAssets()
-    local success, errorMessage = pcall(function()
-        ContentProvider:PreloadAsync(game:GetDescendants())
-    end)
-
-    if not success then
-        warn("Bypassing Security Failed / Loading Assets Failed")
-    end
-end
-
--- Cek secara otomatis saat server mulai
 checkAssets()
 local nodes = {}
 local selection
